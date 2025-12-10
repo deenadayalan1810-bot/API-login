@@ -1,8 +1,10 @@
 import express from "express"
 import iplRoutes from "./routes/Ipl.route.js"
+import connectDB from "./lib/db.js"
 
 const app = express()
 
+connectDB();
 
 app.get('/', (req, res)=>{
     res.json("hello Users")
