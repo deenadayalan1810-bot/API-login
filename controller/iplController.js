@@ -3,7 +3,11 @@ export const iplIndex = (req, res)=>{
 }
 
 export const iplCreator = (req, res)=>{
-    res.send("create sucess")
+    //id, Team, Players, Cup
+
+    console.log(req.body)
+
+    return res.json(req.body)
 }
 
 export const iplUpdate =(req, res)=>{
