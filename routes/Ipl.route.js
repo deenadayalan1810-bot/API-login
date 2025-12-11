@@ -4,12 +4,15 @@ import {
     iplIndex,
     iplCreator,
     iplUpdate,
+    iplDetails,
     iplDelete
  } from "../controller/iplController.js";
 
 const router = express.Router();
 
 router.get("/", iplIndex)
+
+router.get("/:id", iplDetails)
 
 router.post("/", iplCreator)
 

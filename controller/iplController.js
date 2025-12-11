@@ -1,20 +1,88 @@
-export const iplIndex = (req, res)=>{
-    res.send("get sucess")
+import iplTeam from "../models/iplModels.js"
+
+export const iplIndex = async (req, res)=>{
+
+     try{
+     const newIpl = await iplTeam.find()
+     res.json(newIpl)
+     }catch(error){
+     res.status(500).json({message:error.message})
+     }
+    
 }
 
-export const iplCreator = (req, res)=>{
+export const iplCreator =async (req, res)=>{
     //id, Team, Players, Cup
 
     console.log(req.body)
 
-    return res.json(req.body)
+    // validate data
+
+    const newIpl =  new iplTeam ({
+        team: req.body.team,
+        players: req.body.players,
+        titleWon: Number(req.body.titleWon)
+    })
+
+    try{
+        const iplTeam = await newIpl.save();
+        return res.status(201).json(iplTeam)
+    }catch(error){
+        return res.status(400).json({message: error.message})
+    }
 }
 
-export const iplUpdate =(req, res)=>{
-    res.send("update sucess")
+export const iplDetails =async (req, res)=>{
+    try{
+        const team = await iplTeam.findById(req.params.id)
+
+        if(!team){
+            return res.status(404).json({message: "cannot find the team"})
+        }else{
+            res.json(team)
+        }
+    }catch(error){
+        return res.status(500).json({message: error.message})
+    }
+    
 }
 
-export const iplDelete = (req, res)=>{
-    res.send("delete sucess")
+export const iplUpdate =async (req, res)=>{
+
+    try {
+        const updateTeam = await iplTeam.findOneAndUpdate(
+        {_id: req.params.id},
+        {
+            team: req.body.team,
+            players: req.body.players,
+            titleWon: req.body.titleWon
+        },
+        {
+            new: true,
+        }
+    )
+    res.status(200).json(updateTeam)
+        
+    } catch (error) {
+        res.status(400).json({message: error.message})
+    }
+    
+}
+
+export const iplDelete = async (req, res)=>{
+
+    try {
+        const teamDelete = await iplTeam.findByIdAndDelete(req.params.id);
+
+    if(!teamDelete){
+        res.status(404).json({message: "Cannot find the team"})
+    }
+    return res.json({message: "Deleted sucessfully", teamDelete})
+
+    } catch (error) {
+        return res.status(500).json({message: error.message})
+    }
+    
+
 }
 
