@@ -19,6 +19,7 @@ export const iplCreator =async (req, res)=>{
     // validate data
 
     const newIpl =  new iplTeam ({
+        teamId : Number(req.body.teamId),
         team: req.body.team,
         players: req.body.players,
         titleWon: Number(req.body.titleWon)
@@ -34,7 +35,7 @@ export const iplCreator =async (req, res)=>{
 
 export const iplDetails =async (req, res)=>{
     try{
-        const team = await iplTeam.findById(req.params.id)
+        const team = await iplTeam.findOne({teamId: req.params.teamId})
 
         if(!team){
             return res.status(404).json({message: "cannot find the team"})
@@ -51,7 +52,7 @@ export const iplUpdate =async (req, res)=>{
 
     try {
         const updateTeam = await iplTeam.findOneAndUpdate(
-        {_id: req.params.id},
+        {teamId: req.params.teamId},
         {
             team: req.body.team,
             players: req.body.players,
@@ -72,7 +73,7 @@ export const iplUpdate =async (req, res)=>{
 export const iplDelete = async (req, res)=>{
 
     try {
-        const teamDelete = await iplTeam.findByIdAndDelete(req.params.id);
+        const teamDelete = await iplTeam.findByIdAndDelete({teamId: req.params.teamId});
 
     if(!teamDelete){
         res.status(404).json({message: "Cannot find the team"})

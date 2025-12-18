@@ -12,12 +12,12 @@ const router = express.Router();
 
 router.get("/", iplIndex)
 
-router.get("/:id", iplDetails)
+router.get("/team/:teamId", iplDetails)
 
 router.post("/", iplCreator)
 
-router.put("/:id", iplUpdate)
+router.put("/team/:teamId", iplUpdate)
 
-router.delete("/:id", iplDelete)
+router.delete("/team/:teamId", iplDelete)
 
 export default router
